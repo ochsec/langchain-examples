@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import { OpenAI } from "langchain";
-import { getInput } from './template.ts';
+// import { getInput } from './template.ts';
+import { getChain } from './llmChain.ts';
 
 (async () => {
   dotenv.config();
@@ -10,7 +11,8 @@ import { getInput } from './template.ts';
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
-  const res = await model.call(await getInput());
+  const chain = getChain(model);
+  const res = await chain.call({ product: 'loud motorcyles' });
 
   console.log(res);
 })();
