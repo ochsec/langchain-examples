@@ -2,7 +2,8 @@ import * as dotenv from "dotenv";
 import { OpenAI } from "langchain";
 // import { getInput } from './template.ts';
 // import { getChain } from './llmChain.ts';
-import {getExecutor, input} from './agent.ts';
+// import {getExecutor, input} from './agent.ts';
+import { getChain } from './memory.ts';
 
 (async () => {
   dotenv.config();
@@ -12,10 +13,9 @@ import {getExecutor, input} from './agent.ts';
     openAIApiKey: process.env.OPENAI_API_KEY,
   });
 
-  const executor = await getExecutor(model);
-  console.log("Loaded agent.");
-  console.log(`Executing with input "${input}"...`);
-
-  const result = await executor.call({ input });
-  console.log(`Got output ${result.output}`);
+  const chain = getChain(model);
+  const res1 = await chain.call({ input: "Hi! I'm Jim." });
+  console.log(res1);
+  const res2 = await chain.call({ input: "What's my name?" });
+  console.log(res2);
 })();
